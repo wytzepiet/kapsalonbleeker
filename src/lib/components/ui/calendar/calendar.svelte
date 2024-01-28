@@ -1,17 +1,19 @@
 <script lang="ts">
-	import { Calendar as CalendarPrimitive } from "bits-ui";
-	import * as Calendar from ".";
-	import { cn } from "$lib/utils";
+	import { Calendar as CalendarPrimitive } from 'bits-ui';
+	import * as Calendar from '.';
+	import { cn } from '$lib/utils';
+	import { openingHours } from '$lib/stores';
+	import { getLocalTimeZone, toLocalTimeZone } from '@internationalized/date';
 
 	type $$Props = CalendarPrimitive.Props;
 
 	type $$Events = CalendarPrimitive.Events;
 
-	export let value: $$Props["value"] = undefined;
-	export let placeholder: $$Props["placeholder"] = undefined;
-	export let weekdayFormat: $$Props["weekdayFormat"] = "short";
+	export let value: $$Props['value'] = undefined;
+	export let placeholder: $$Props['placeholder'] = undefined;
+	export let weekdayFormat: $$Props['weekdayFormat'] = 'short';
 
-	let className: $$Props["class"] = undefined;
+	let className: $$Props['class'] = undefined;
 	export { className as class };
 </script>
 
@@ -19,7 +21,7 @@
 	bind:value
 	bind:placeholder
 	{weekdayFormat}
-	class={cn("p-3", className)}
+	class={cn('p-3', className)}
 	{...$$restProps}
 	on:keydown
 	let:months
@@ -46,9 +48,14 @@
 					{#each month.weeks as weekDates}
 						<Calendar.GridRow class="w-full mt-2">
 							{#each weekDates as date}
-								<Calendar.Cell {date}>
-									<Calendar.Day {date} month={month.value} />
-								</Calendar.Cell>
+								<div
+									class="day"
+									class:disabled={!$openingHours[date.toDate(getLocalTimeZone()).getDay()].open}
+								>
+									<Calendar.Cell {date}>
+										<Calendar.Day {date} month={month.value} />
+									</Calendar.Cell>
+								</div>
 							{/each}
 						</Calendar.GridRow>
 					{/each}
@@ -57,3 +64,11 @@
 		{/each}
 	</Calendar.Months>
 </CalendarPrimitive.Root>
+
+<style>
+	.day.disabled {
+		color: hsl(var(--muted-foreground));
+		opacity: 0.5;
+		pointer-events: none;
+	}
+</style>

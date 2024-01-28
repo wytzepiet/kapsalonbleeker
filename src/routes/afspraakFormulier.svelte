@@ -18,6 +18,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { formSchema, type FormSchema } from './schema';
 	import WhatsappIcon from './whatsappIcon.svelte';
+	import { openingHours } from '$lib/stores';
 
 	export let form: SuperValidated<FormSchema> = $page.data.datePicker;
 
@@ -32,9 +33,39 @@
 		dateStyle: 'long'
 	});
 
-	let value: DateValue | undefined = $formStore.date ? parseDate($formStore.date) : undefined;
+	let dateValue: DateValue | undefined = $formStore.date ? parseDate($formStore.date) : undefined;
+	let datePlaceholder: DateValue = today(getLocalTimeZone());
+	let datePickerOpen = false;
+	function setDatePickerOpen(open: boolean) {
+		datePickerOpen = open;
+	}
 
-	let placeholder: DateValue = today(getLocalTimeZone());
+	let availableTimes: string[][] = [];
+	$openingHours.forEach((day) => {
+		const times: string[] = [];
+		if (day.open) {
+			const openingTime = day.openingTime.split(':');
+			const closingTime = day.closingTime.split(':');
+			const openingDate = new Date();
+			openingDate.setHours(Number(openingTime[0]), Number(openingTime[1]), 0, 0);
+			const closingDate = new Date();
+			closingDate.setHours(Number(closingTime[0]), Number(closingTime[1]), 0, 0);
+
+			while (openingDate < closingDate) {
+				times.push(
+					openingDate
+						.toLocaleTimeString('nl-NL', {
+							hour: '2-digit',
+							minute: '2-digit'
+						})
+						.replace(':', ':')
+				);
+				openingDate.setMinutes(openingDate.getMinutes() + 15);
+			}
+		}
+		availableTimes.push(times);
+	});
+	console.log(availableTimes);
 </script>
 
 <Form.Root
@@ -56,7 +87,7 @@
 	<Form.Field {config} name="date">
 		<Form.Item class="flex flex-col">
 			<Form.Label for="date">Datum</Form.Label>
-			<Popover.Root>
+			<Popover.Root open={datePickerOpen} onOpenChange={setDatePickerOpen}>
 				<Form.Control id="date" let:attrs>
 					<Popover.Trigger
 						id="date"
@@ -64,24 +95,26 @@
 						class={cn(
 							buttonVariants({ variant: 'outline' }),
 							'w-[280px] pl-4 justify-start text-left font-normal',
-							!value && 'text-muted-foreground'
+							!dateValue && 'text-muted-foreground'
 						)}
 					>
-						{value ? df.format(value.toDate(getLocalTimeZone())) : 'Kies datum'}
+						{dateValue ? df.format(dateValue.toDate(getLocalTimeZone())) : 'Kies datum'}
 						<CalendarIcon class="ml-auto h-4 w-4 opacity-50" />
 					</Popover.Trigger>
 				</Form.Control>
 				<Popover.Content class="w-auto p-0" side="top">
 					<Calendar
-						bind:value
-						bind:placeholder
+						bind:value={dateValue}
+						bind:placeholder={datePlaceholder}
 						minValue={today(getLocalTimeZone())}
 						maxValue={today(getLocalTimeZone()).add({ days: 365 })}
 						calendarLabel="Datum"
 						initialFocus
 						onValueChange={(v) => {
 							if (v) {
-								$formStore.date = v.toDate(getLocalTimeZone()).toISOString();
+								const newDate = v.toDate(getLocalTimeZone()).toISOString();
+								if (newDate !== $formStore.date) setDatePickerOpen(false);
+								$formStore.date = newDate;
 							} else {
 								$formStore.date = '';
 							}
@@ -101,17 +134,9 @@
 					<Form.SelectTrigger placeholder="Kies tijd" />
 					<Form.SelectContent>
 						<div class="overflow-y-scroll max-h-80">
-							{#each { length: 50 } as _, i}
-								<Form.SelectItem
-									value={`${Math.floor(i / 6) + 8}:${((i % 6) * 10).toLocaleString('nl-NL', {
-										minimumIntegerDigits: 2,
-										useGrouping: false
-									})}`}
-								>
-									{`${Math.floor(i / 6) + 8}:${((i % 6) * 10).toLocaleString('nl-NL', {
-										minimumIntegerDigits: 2,
-										useGrouping: false
-									})}`}
+							{#each availableTimes[dateValue?.toDate(getLocalTimeZone()).getDay() ?? 0] as time}
+								<Form.SelectItem value={time}>
+									{time}
 								</Form.SelectItem>
 							{/each}
 						</div>
@@ -121,11 +146,10 @@
 			</Form.Item>
 		</Form.Field>
 	</div>
-
-	<Button type="submit"><WhatsappIcon />&nbsp;&nbsp;Vraag aan via Whatsapp</Button>
 	<p class="text-muted-foreground text-sm">
 		U krijgt via Whatsapp bevestiging of de<br /> datum en tijd beschikbaar zijn.
 	</p>
+	<Button type="submit"><WhatsappIcon />&nbsp;&nbsp;Vraag aan via Whatsapp</Button>
 </Form.Root>
 
 <style>

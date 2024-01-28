@@ -1,24 +1,19 @@
 <script lang="ts">
-	import DatePicker from '$lib/components/ui/datePicker.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import * as Form from '$lib/components/ui/form';
-	import { formSchema, type FormSchema } from './schema';
-	import AfspraakFormulier from './afspraakFormulier.svelte';
-	import type { SuperValidated } from 'sveltekit-superforms';
-
 	import type { PageData } from './$types';
 	export let data: PageData;
+	import AfspraakFormulier from './afspraakFormulier.svelte';
+	import { openingHours } from '$lib/stores';
 
-	let openingHours = [
-		{ day: 'Maandag', hours: 'Gesloten' },
-		{ day: 'Dinsdag', hours: '08:00 - 18:00' },
-		{ day: 'Woensdag', hours: '08:00 - 18:00' },
-		{ day: 'Donderdag', hours: '08:00 - 18:00' },
-		{ day: 'Vrijdag', hours: '08:00 - 18:00' },
-		{ day: 'Zaterdag', hours: '08:00 - 13:00' },
-		{ day: 'Zondag', hours: 'Gesloten' }
-	];
 	let dayOfWeek = new Date().getDay();
+	openingHours.set([
+		{ day: 'Maandag', open: false, openingTime: '08:00', closingTime: '18:00' },
+		{ day: 'Dinsdag', open: true, openingTime: '08:00', closingTime: '18:00' },
+		{ day: 'Woensdag', open: true, openingTime: '08:00', closingTime: '18:00' },
+		{ day: 'Donderdag', open: true, openingTime: '08:00', closingTime: '18:00' },
+		{ day: 'Vrijdag', open: true, openingTime: '08:00', closingTime: '18:00' },
+		{ day: 'Zaterdag', open: true, openingTime: '08:00', closingTime: '13:00' },
+		{ day: 'Zondag', open: false, openingTime: '08:00', closingTime: '18:00' }
+	]);
 </script>
 
 <div style="height: 50px"></div>
@@ -36,10 +31,12 @@
 		<img class="rounded" src="/images/portret.webp" alt="" />
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
-			{#each openingHours as { day, hours }, i}
+			{#each $openingHours as day, i}
 				<p class="opening-day" class:current-day={i === dayOfWeek}>
-					<span class="day">{day}</span>
-					<span class="hours">{hours}</span>
+					<span class="day">{day.day}</span>
+					<span class="hours">
+						{day.open ? day.openingTime + ' - ' + day.closingTime : 'Gesloten'}
+					</span>
 				</p>
 			{/each}
 		</div>
@@ -104,7 +101,7 @@
 	.card {
 		background-color: hsl(var(--background));
 		border: 1px solid hsl(var(--dark-border));
-		padding: 40px;
+		padding: min(40px, var(--side-margin));
 	}
 	img {
 		width: 0px;
