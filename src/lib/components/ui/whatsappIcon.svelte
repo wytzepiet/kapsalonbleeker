@@ -7,5 +7,9 @@
 <style>
 	svg {
 		height: 2em;
+		fill: hsl(var(--foreground));
+	}
+	:global(.bg-primary) svg {
+		fill: hsl(var(--background));
 	}
 </style>

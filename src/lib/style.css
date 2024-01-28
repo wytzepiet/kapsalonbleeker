@@ -64,3 +64,8 @@ h5 {
 .serif {
     font-family: 'Frank Ruhl Libre', serif;
 }
+
+.material-icons {
+    font-size: 1.2em;
+    vertical-align: middle;
+}

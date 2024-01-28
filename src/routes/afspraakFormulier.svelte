@@ -17,7 +17,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { formSchema, type FormSchema } from './schema';
-	import WhatsappIcon from './whatsappIcon.svelte';
+	import WhatsappIcon from '$lib/components/ui/whatsappIcon.svelte';
 	import { openingHours } from '$lib/stores';
 
 	export let form: SuperValidated<FormSchema> = $page.data.datePicker;
@@ -42,30 +42,33 @@
 
 	let availableTimes: string[][] = [];
 	$openingHours.forEach((day) => {
-		const times: string[] = [];
-		if (day.open) {
-			const openingTime = day.openingTime.split(':');
-			const closingTime = day.closingTime.split(':');
-			const openingDate = new Date();
-			openingDate.setHours(Number(openingTime[0]), Number(openingTime[1]), 0, 0);
-			const closingDate = new Date();
-			closingDate.setHours(Number(closingTime[0]), Number(closingTime[1]), 0, 0);
+		if (!day.open) return availableTimes.push(['']);
 
-			while (openingDate < closingDate) {
-				times.push(
-					openingDate
-						.toLocaleTimeString('nl-NL', {
-							hour: '2-digit',
-							minute: '2-digit'
-						})
-						.replace(':', ':')
-				);
-				openingDate.setMinutes(openingDate.getMinutes() + 15);
-			}
+		const times: string[] = [];
+		const openingTime = day.openingTime.split(':');
+		const closingTime = day.closingTime.split(':');
+		const openingDate = new Date();
+		openingDate.setHours(Number(openingTime[0]), Number(openingTime[1]), 0, 0);
+		const closingDate = new Date();
+		closingDate.setHours(Number(closingTime[0]), Number(closingTime[1]), 0, 0);
+
+		while (openingDate < closingDate) {
+			times.push(
+				openingDate
+					.toLocaleTimeString('nl-NL', {
+						hour: '2-digit',
+						minute: '2-digit'
+					})
+					.replace(':', ':')
+			);
+			openingDate.setMinutes(openingDate.getMinutes() + 15);
 		}
 		availableTimes.push(times);
 	});
-	console.log(availableTimes);
+
+	$: availableTimesToday = dateValue
+		? availableTimes[dateValue.toDate(getLocalTimeZone()).getDay()]
+		: [''];
 </script>
 
 <Form.Root
@@ -134,7 +137,7 @@
 					<Form.SelectTrigger placeholder="Kies tijd" />
 					<Form.SelectContent>
 						<div class="overflow-y-scroll max-h-80">
-							{#each availableTimes[dateValue?.toDate(getLocalTimeZone()).getDay() ?? 0] as time}
+							{#each availableTimesToday as time}
 								<Form.SelectItem value={time}>
 									{time}
 								</Form.SelectItem>
@@ -147,9 +150,9 @@
 		</Form.Field>
 	</div>
 	<p class="text-muted-foreground text-sm">
-		U krijgt via Whatsapp bevestiging of de<br /> datum en tijd beschikbaar zijn.
+		U krijgt via Whatsapp bevestiging of de gekozen datum en tijd beschikbaar zijn.
 	</p>
-	<Button type="submit"><WhatsappIcon />&nbsp;&nbsp;Vraag aan via Whatsapp</Button>
+	<Button type="submit"><WhatsappIcon />&nbsp;&nbsp;Verstuur aanvraag</Button>
 </Form.Root>
 
 <style>
