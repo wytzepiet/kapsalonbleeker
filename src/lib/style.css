@@ -1,0 +1,65 @@
+:root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+    --primary: var(--foreground);
+    --primary-foreground: var(--background);
+    --secondary: 0 0% 20%;
+    --secondary-foreground: var(--foreground);
+    --muted: var(--secondary);
+    --muted-foreground: 0 0% 63.9%;
+    --accent: var(--secondary);
+    --accent-foreground: var(--foreground);
+    --destructive: 0 94.45% 63.95%;
+    --destructive-foreground: var(--foreground);
+    --border: var(--secondary);
+    --dark-border: 0 0% 12%;
+    --input: var(--secondary);
+    --ring: 0 0% 83.1%;
+}
+
+body {
+
+    background-color: hsl(0 0% 3%);
+    color: hsl(var(--foreground));
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1rem;
+}
+
+h5 {
+    font-size: 0.875rem;
+}
+
+.serif {
+    font-family: 'Frank Ruhl Libre', serif;
+}
