@@ -33,7 +33,7 @@
 
 <div class="page">
 	<div class="flex">
-		<img class="rounded" src="/images/portret.jpg" alt="" />
+		<img class="rounded" src="/images/portret.webp" alt="" />
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
 			{#each openingHours as { day, hours }, i}
