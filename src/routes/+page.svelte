@@ -29,8 +29,8 @@
 
 <div style="height: 50px"></div>
 
-<div class="page gap-6">
-	<div class="flex gap-6">
+<div class="page gap">
+	<div class="gap flex">
 		<img class="rounded" src="/images/portret.webp" alt="" />
 
 		<div class="card min-w-80">
@@ -45,7 +45,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="flex gap-6 reserveren">
+	<div class="gap reserveren flex">
 		<div class="card flex-1">
 			<p class="text-muted-foreground">Afspraak maken</p>
 			<h2>Dames</h2>
@@ -71,13 +71,14 @@
 					<AfspraakFormulier form={data.form} />
 				</Dialog.Content>
 			</Dialog.Root>
+
 			<br /> <br />
 			<p><span class="text-muted-foreground">Of bel </span>&nbsp 0515 572 557</p>
 		</div>
 	</div>
 </div>
 
-<div class="text-muted-foreground text-sm my-10 flex justify-between items-end">
+<div class="my-10 flex items-end justify-between text-sm text-muted-foreground">
 	<div>
 		<div class="socials flex gap-5">
 			<svg
@@ -132,7 +133,7 @@
 		letter-spacing: 0.3em;
 		padding: 0px 10px;
 		background-color: hsl(var(--foreground));
-		color: black;
+		color: hsl(var(--background));
 	}
 
 	.page {
@@ -141,9 +142,12 @@
 		align-items: stretch;
 	}
 
+	.gap {
+		gap: 25px;
+	}
 	.rounded,
 	.card {
-		border-radius: 20px;
+		border-radius: var(--radius);
 	}
 	.card {
 		background-color: hsl(var(--background));

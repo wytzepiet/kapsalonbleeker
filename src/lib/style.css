@@ -8,24 +8,24 @@
     --popover-foreground: var(--foreground);
     --primary: var(--foreground);
     --primary-foreground: var(--background);
-    --secondary: 0 0% 20%;
+    --secondary: 44.77 31.07% 55.03%;
     --secondary-foreground: var(--foreground);
-    --muted: var(--secondary);
+    --muted: 0 0% 20%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: var(--secondary);
+    --accent: var(--muted);
     --accent-foreground: var(--foreground);
     --destructive: 0 94.45% 63.95%;
     --destructive-foreground: var(--foreground);
-    --border: var(--secondary);
+    --border: var(--muted);
     --dark-border: 0 0% 12%;
-    --input: var(--secondary);
+    --input: var(--muted);
     --ring: 0 0% 83.1%;
-    --radius: 10px;
+    --radius: 15px;
 }
 
 body {
 
-    background-color: hsl(0 0% 4%);
+    background-color: hsl(0 0% 5%);
     color: hsl(var(--foreground));
     font-family: 'Poppins', sans-serif;
     font-weight: 400;

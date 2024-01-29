@@ -97,7 +97,7 @@
 						{...attrs}
 						class={cn(
 							buttonVariants({ variant: 'outline' }),
-							'w-[280px] pl-4 justify-start text-left font-normal',
+							'w-[280px] justify-start pl-4 text-left font-normal',
 							!dateValue && 'text-muted-foreground'
 						)}
 					>
@@ -105,7 +105,7 @@
 						<CalendarIcon class="ml-auto h-4 w-4 opacity-50" />
 					</Popover.Trigger>
 				</Form.Control>
-				<Popover.Content class="w-auto p-0" side="top">
+				<Popover.Content class="w-auto p-0" side="top" overlap>
 					<Calendar
 						bind:value={dateValue}
 						bind:placeholder={datePlaceholder}
@@ -135,8 +135,8 @@
 				<Form.Label>Tijd</Form.Label>
 				<Form.Select>
 					<Form.SelectTrigger placeholder="Kies tijd" />
-					<Form.SelectContent>
-						<div class="overflow-y-scroll max-h-80">
+					<Form.SelectContent fitViewport>
+						<div class="max-h-80 overflow-y-scroll">
 							{#each availableTimesToday as time}
 								<Form.SelectItem value={time}>
 									{time}
@@ -149,7 +149,7 @@
 			</Form.Item>
 		</Form.Field>
 	</div>
-	<p class="text-muted-foreground text-sm">
+	<p class="text-sm text-muted-foreground">
 		U krijgt via Whatsapp bevestiging of de gekozen datum en tijd beschikbaar zijn.
 	</p>
 	<Button type="submit"><WhatsappIcon />&nbsp;&nbsp;Verstuur aanvraag</Button>
