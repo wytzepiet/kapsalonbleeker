@@ -19,7 +19,7 @@
 	import WhatsappIcon from '$lib/components/ui/whatsappIcon.svelte';
 	import { getAvailableTimes } from '$lib/openingHours';
 
-	export let form: SuperValidated<FormSchema> = $page.data.datePicker;
+	export let form: SuperValidated<FormSchema>;
 
 	const theForm = superForm(form, {
 		validators: formSchema,
@@ -41,14 +41,7 @@
 	$: availableTimesOnDay = dateValue ? getAvailableTimes(dateValue) : [];
 </script>
 
-<Form.Root
-	schema={formSchema}
-	controlled
-	form={theForm}
-	let:config
-	action="?/datePicker"
-	class="space-y-5"
->
+<Form.Root method="POST" schema={formSchema} controlled form={theForm} let:config class="space-y-5">
 	<Form.Field {config} name="name">
 		<Form.Item>
 			<Form.Label>Naam</Form.Label>

@@ -5,7 +5,7 @@ import { formSchema } from "./schema";
 
 export const load: PageServerLoad = async () => {
     return {
-        form: await superValidate(formSchema)
+        form: await superValidate(formSchema),
     };
 };
 
@@ -17,8 +17,10 @@ export const actions: Actions = {
                 form
             });
         }
+
         return {
             form
         };
     }
 };
+

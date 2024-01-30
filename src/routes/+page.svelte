@@ -1,13 +1,28 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	export let data: PageData;
+	import type { PageData, ActionData } from './$types';
+
 	import AfspraakFormulier from './afspraakFormulier.svelte';
 	import { openingHours } from '$lib/openingHours';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import WhatsappIcon from '../lib/components/ui/whatsappIcon.svelte';
 
+	export let data: PageData;
+	export let form: ActionData;
+
 	let dayOfWeek = new Date().getDay();
+
+	$: console.log(form);
+	$: if (form?.form.posted && form.form.valid) {
+		const data = form.form.data;
+		const date = new Date(data.date).toLocaleDateString('nl-NL', {
+			weekday: 'long',
+			day: 'numeric',
+			month: 'long'
+		});
+		const message = `Hallo Gerrit,%0Aik wil graag een afspraak maken op ${date} om ${data.time}. Heb je dan tijd?%0AGroeten, ${data.name}`;
+		window.location.href = 'https://wa.me/+31653392572?text=' + message.replace(/ /g, '%20');
+	}
 </script>
 
 <div style="height: 50px"></div>
