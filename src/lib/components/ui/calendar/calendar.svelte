@@ -2,8 +2,7 @@
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
 	import * as Calendar from '.';
 	import { cn } from '$lib/utils';
-	import { openingHours } from '$lib/stores';
-	import { getLocalTimeZone, toLocalTimeZone } from '@internationalized/date';
+	import { openingHours } from '$lib/openingHours';
 
 	type $$Props = CalendarPrimitive.Props;
 
@@ -26,6 +25,7 @@
 	on:keydown
 	let:months
 	let:weekdays
+	locale="nl"
 >
 	<Calendar.Header>
 		<Calendar.PrevButton />
@@ -46,12 +46,9 @@
 				</Calendar.GridHead>
 				<Calendar.GridBody>
 					{#each month.weeks as weekDates}
-						<Calendar.GridRow class="w-full mt-2">
-							{#each weekDates as date}
-								<div
-									class="day"
-									class:disabled={!$openingHours[date.toDate(getLocalTimeZone()).getDay()].open}
-								>
+						<Calendar.GridRow class="mt-2 w-full">
+							{#each weekDates as date, i}
+								<div class="day" class:disabled={!openingHours[i].opened}>
 									<Calendar.Cell {date}>
 										<Calendar.Day {date} month={month.value} />
 									</Calendar.Cell>

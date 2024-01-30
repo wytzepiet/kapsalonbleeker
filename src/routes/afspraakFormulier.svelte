@@ -6,7 +6,6 @@
 		DateFormatter,
 		getLocalTimeZone,
 		parseDate,
-		CalendarDate,
 		today
 	} from '@internationalized/date';
 	import { cn } from '$lib/utils';
@@ -18,7 +17,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { formSchema, type FormSchema } from './schema';
 	import WhatsappIcon from '$lib/components/ui/whatsappIcon.svelte';
-	import { openingHours } from '$lib/stores';
+	import { getAvailableTimes } from '$lib/openingHours';
 
 	export let form: SuperValidated<FormSchema> = $page.data.datePicker;
 
@@ -35,40 +34,11 @@
 
 	let dateValue: DateValue | undefined = $formStore.date ? parseDate($formStore.date) : undefined;
 	let datePlaceholder: DateValue = today(getLocalTimeZone());
-	let datePickerOpen = false;
-	function setDatePickerOpen(open: boolean) {
-		datePickerOpen = open;
-	}
 
-	let availableTimes: string[][] = [];
-	$openingHours.forEach((day) => {
-		if (!day.open) return availableTimes.push(['']);
+	let isDatePickerOpen = false;
+	const setDatePickerOpen = (open: boolean) => (isDatePickerOpen = open);
 
-		const times: string[] = [];
-		const openingTime = day.openingTime.split(':');
-		const closingTime = day.closingTime.split(':');
-		const openingDate = new Date();
-		openingDate.setHours(Number(openingTime[0]), Number(openingTime[1]), 0, 0);
-		const closingDate = new Date();
-		closingDate.setHours(Number(closingTime[0]), Number(closingTime[1]), 0, 0);
-
-		while (openingDate < closingDate) {
-			times.push(
-				openingDate
-					.toLocaleTimeString('nl-NL', {
-						hour: '2-digit',
-						minute: '2-digit'
-					})
-					.replace(':', ':')
-			);
-			openingDate.setMinutes(openingDate.getMinutes() + 15);
-		}
-		availableTimes.push(times);
-	});
-
-	$: availableTimesToday = dateValue
-		? availableTimes[dateValue.toDate(getLocalTimeZone()).getDay()]
-		: [''];
+	$: availableTimesOnDay = dateValue ? getAvailableTimes(dateValue) : [];
 </script>
 
 <Form.Root
@@ -90,7 +60,7 @@
 	<Form.Field {config} name="date">
 		<Form.Item class="flex flex-col">
 			<Form.Label for="date">Datum</Form.Label>
-			<Popover.Root open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+			<Popover.Root open={isDatePickerOpen} onOpenChange={setDatePickerOpen}>
 				<Form.Control id="date" let:attrs>
 					<Popover.Trigger
 						id="date"
@@ -134,15 +104,13 @@
 			<Form.Item>
 				<Form.Label>Tijd</Form.Label>
 				<Form.Select>
-					<Form.SelectTrigger placeholder="Kies tijd" />
-					<Form.SelectContent fitViewport>
-						<div class="max-h-80 overflow-y-scroll">
-							{#each availableTimesToday as time}
-								<Form.SelectItem value={time}>
-									{time}
-								</Form.SelectItem>
-							{/each}
-						</div>
+					<Form.SelectTrigger placeholder="Kies tijd" disabled={availableTimesOnDay.length === 0} />
+					<Form.SelectContent fitViewport class="h-80 overflow-y-scroll">
+						{#each availableTimesOnDay as time}
+							<Form.SelectItem value={time}>
+								{time}
+							</Form.SelectItem>
+						{/each}
 					</Form.SelectContent>
 				</Form.Select>
 				<Form.Validation />

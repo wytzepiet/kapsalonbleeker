@@ -2,21 +2,12 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 	import AfspraakFormulier from './afspraakFormulier.svelte';
-	import { openingHours } from '$lib/stores';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
+	import { openingHours } from '$lib/openingHours';
+	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import WhatsappIcon from '../lib/components/ui/whatsappIcon.svelte';
 
 	let dayOfWeek = new Date().getDay();
-	openingHours.set([
-		{ day: 'Maandag', open: false, openingTime: '08:00', closingTime: '18:00' },
-		{ day: 'Dinsdag', open: true, openingTime: '08:00', closingTime: '18:00' },
-		{ day: 'Woensdag', open: true, openingTime: '08:00', closingTime: '18:00' },
-		{ day: 'Donderdag', open: true, openingTime: '08:00', closingTime: '18:00' },
-		{ day: 'Vrijdag', open: true, openingTime: '08:00', closingTime: '18:00' },
-		{ day: 'Zaterdag', open: true, openingTime: '08:00', closingTime: '13:00' },
-		{ day: 'Zondag', open: false, openingTime: '08:00', closingTime: '18:00' }
-	]);
 </script>
 
 <div style="height: 50px"></div>
@@ -35,11 +26,11 @@
 
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
-			{#each $openingHours as day, i}
+			{#each openingHours as day, i}
 				<p class="opening-day" class:current-day={i === dayOfWeek}>
 					<span class="day">{day.day}</span>
 					<span class="hours">
-						{day.open ? day.openingTime + ' - ' + day.closingTime : 'Gesloten'}
+						{day.opened ? day.openingTime + ' - ' + day.closingTime : 'Gesloten'}
 					</span>
 				</p>
 			{/each}
@@ -50,11 +41,7 @@
 			<p class="text-muted-foreground">Afspraak maken</p>
 			<h2>Dames</h2>
 
-			<p><span class="text-muted-foreground">Telefoon </span>&nbsp 0515 572 557</p>
-			<br />
-			<p>
-				<span class="text-muted-foreground">Email </span>&nbsp kapsalon.bleeker@gmail.com
-			</p>
+			<p><span class="text-muted-foreground"> Bel ons: </span>&nbsp 0515 572 557</p>
 		</div>
 		<div class="card flex-1">
 			<p class="text-muted-foreground">Afspraak maken</p>
@@ -151,7 +138,7 @@
 	}
 	.card {
 		background-color: hsl(var(--background));
-		border: 1px solid hsl(var(--dark-border));
+		border: 1px solid hsl(var(--muted-border));
 		padding: min(40px, var(--side-margin));
 	}
 	img {
