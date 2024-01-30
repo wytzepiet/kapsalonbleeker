@@ -134,7 +134,7 @@
 	}
 	.rounded,
 	.card {
-		border-radius: var(--radius);
+		border-radius: 20px;
 	}
 	.card {
 		background-color: hsl(var(--background));

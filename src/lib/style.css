@@ -1,5 +1,5 @@
 :root {
-    --background: 0 0% 7%;
+    --background: 0 0% 8%;
     --foreground: 0 0% 98%;
 
     --card: var(--background);
@@ -20,12 +20,12 @@
     --muted-border: 0 0% 12%;
     --input: var(--muted);
     --ring: 0 0% 83.1%;
-    --radius: 15px;
+    --radius: 12px;
 }
 
 body {
 
-    background-color: hsl(0 0% 5%);
+    background-color: hsl(0 0% 4%);
     color: hsl(var(--foreground));
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
