@@ -40,7 +40,7 @@
 <div class="page gap">
 	<div class="gap flex">
 		<img class="rounded" src="/images/portret.webp" alt="" />
-		<Image className="rounded" src="/images/interieur.webp" alt="hairstyle" />
+		<img class="rounded" src="/_vercel/image?url=/images/portret.webp&w=3840&q=75" alt="" />
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
 			{#each openingHours as day, i}
