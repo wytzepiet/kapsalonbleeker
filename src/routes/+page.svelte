@@ -6,21 +6,21 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import WhatsappIcon from '../lib/components/ui/whatsappIcon.svelte';
+	import Image from '$lib/components/ui/image.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
 
 	let dayOfWeek = new Date().getDay();
 
-	$: console.log(form);
-	$: if (form?.form.posted && form.form.valid) {
-		const data = form.form.data;
-		const date = new Date(data.date).toLocaleDateString('nl-NL', {
+	$: if (form?.form.valid) {
+		let { name, date, time } = form.form.data;
+		date = new Date(date).toLocaleDateString('nl-NL', {
 			weekday: 'long',
 			day: 'numeric',
 			month: 'long'
 		});
-		const message = `Hallo Gerrit,%0Aik wil graag een afspraak maken op ${date} om ${data.time}. Heb je dan tijd?%0AGroeten, ${data.name}`;
+		const message = `Hallo Gerrit,%0AIk wil graag een afspraak maken op ${date} om ${time}.%0AGroeten, ${name}`;
 		window.location.href = 'https://wa.me/+31653392572?text=' + message.replace(/ /g, '%20');
 	}
 </script>
@@ -37,7 +37,7 @@
 
 <div class="page gap">
 	<div class="gap flex">
-		<img class="rounded" src="/images/portret.webp" alt="" />
+		<Image className="rounded" src="/images/interieur.webp" alt="hairstyle" />
 
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
