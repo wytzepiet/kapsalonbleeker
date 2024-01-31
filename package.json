@@ -37,7 +37,6 @@
 	"type": "module",
 	"dependencies": {
 		"@internationalized/date": "^3.5.1",
-		"@unpic/svelte": "^0.0.46",
 		"bits-ui": "^0.15.1",
 		"clsx": "^2.1.0",
 		"formsnap": "^0.4.3",
