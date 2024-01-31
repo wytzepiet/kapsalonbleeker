@@ -20,8 +20,10 @@
 			day: 'numeric',
 			month: 'long'
 		});
-		const message = `Hallo Gerrit,%0AIk wil graag een afspraak maken op ${date} om ${time}.%0AGroeten, ${name}`;
-		window.location.href = 'https://wa.me/+31653392572?text=' + message.replace(/ /g, '%20');
+		const message = `Hallo Gerrit,\n
+		Ik wil graag een afspraak maken op ${date} om ${time}.\n
+		Groeten, ${name}`;
+		window.location.href = 'https://wa.me/+31653392572?text=' + encodeURIComponent(message);
 	}
 </script>
 
@@ -37,8 +39,8 @@
 
 <div class="page gap">
 	<div class="gap flex">
+		<img class="rounded" src="/images/portret.webp" alt="" />
 		<Image className="rounded" src="/images/interieur.webp" alt="hairstyle" />
-
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
 			{#each openingHours as day, i}
