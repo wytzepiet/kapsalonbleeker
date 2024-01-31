@@ -6,7 +6,6 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import WhatsappIcon from '../lib/components/ui/whatsappIcon.svelte';
-	import Image from '$lib/components/ui/image.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
