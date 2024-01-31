@@ -6,6 +6,7 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import WhatsappIcon from '../lib/components/ui/whatsappIcon.svelte';
+	import { Image } from '@unpic/svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -25,7 +26,7 @@
 		window.location.href = 'https://wa.me/+31653392572?text=' + encodeURIComponent(message);
 	}
 
-	let url = '/_vercel/image?url={/images/portret.webp}&w=3840&q=75';
+	let url = '/_vercel/image?url=/images/portret.webp&w=3840&q=75';
 </script>
 
 <div style="height: 50px"></div>
@@ -41,7 +42,7 @@
 <div class="page gap">
 	<div class="gap flex">
 		<img class="rounded" src="/images/portret.webp" alt="" />
-		<img class="rounded" width="1000" src={url} alt="" />
+		<Image src={url} layout="constrained" width={800} height={600} alt="A lovely bath" />
 		<div class="card min-w-80">
 			<h3>Openingstijden</h3>
 			{#each openingHours as day, i}
