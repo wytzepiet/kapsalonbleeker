@@ -19,9 +19,7 @@
 			day: 'numeric',
 			month: 'long'
 		});
-		const message = `Hallo Gerrit,\n
-		Ik wil graag een afspraak maken op ${date} om ${time}.\n
-		Groeten, ${name}`;
+		const message = `Hallo Gerrit,\nIk wil graag een afspraak maken op ${date} om ${time}.\nGroeten, ${name}`;
 		window.location.href = 'https://wa.me/+31653392572?text=' + encodeURIComponent(message);
 	}
 </script>
