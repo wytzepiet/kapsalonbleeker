@@ -26,18 +26,16 @@
 
 <div style="height: 50px"></div>
 
-<div class="logo">
-	<h2>Kapsalon</h2>
-	<h1 class="serif">Bleeker</h1>
-	<h2>Bolsward</h2>
-</div>
+<h2 class="logo">Kapsalon</h2>
+<h1 class="logo serif">Bleeker</h1>
+<h2 class="logo">Bolsward</h2>
 
 <div style="height: 50px"></div>
 
-<div class="page gap">
+<div class="page gap w-full">
 	<div class="gap flex">
 		<img class="rounded" src="/images/portret-tiny.webp" alt="" />
-		<div class="card min-w-80">
+		<div class="card" style="min-width: 35%;">
 			<h3>Openingstijden</h3>
 			{#each openingHours as day, i}
 				<p class="opening-day" class:current-day={i === dayOfWeek}>
@@ -60,7 +58,7 @@
 			<p class="text-muted-foreground">Afspraak maken</p>
 			<h2>Heren</h2>
 			<Dialog.Root>
-				<Dialog.Trigger class={buttonVariants({ variant: 'outline' })}>
+				<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>
 					<WhatsappIcon />&nbsp;&nbsp;Maak afspraak via Whatsapp
 				</Dialog.Trigger>
 				<Dialog.Content class="sm:max-w-[425px]">
@@ -78,7 +76,7 @@
 	</div>
 </div>
 
-<div class="my-10 flex items-end justify-between text-sm text-muted-foreground">
+<div class="my-10 flex w-full items-end justify-between text-sm text-white">
 	<div>
 		<div class="socials flex gap-5">
 			<svg
@@ -115,31 +113,33 @@
 
 <style>
 	.logo {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.logo > * {
 		margin: 0px;
 		text-transform: uppercase;
 		display: block;
 	}
-	.logo h2 {
+	h2.logo {
 		padding-left: 0.5em;
 		letter-spacing: 0.6em;
 		font-weight: 200;
+		color: white;
 	}
-	.logo h1 {
+	h1.logo {
 		letter-spacing: 0.3em;
 		padding: 0px 10px;
-		background-color: hsl(var(--foreground));
-		color: hsl(var(--background));
+		background-color: white;
+		color: black;
+		/* color: var(--background); */
+		mix-blend-mode: screen;
+		position: relative;
 	}
 
 	.page {
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
+		padding: 20px;
+		background-color: white;
+		border-radius: 30px;
 	}
 
 	.gap {
@@ -150,8 +150,8 @@
 		border-radius: 20px;
 	}
 	.card {
-		background-color: hsl(var(--background));
-		border: 1px solid hsl(var(--muted-border));
+		background-color: var(--background);
+		/* border: 1px solid var(--muted-border)); */
 		padding: min(40px, var(--side-margin));
 	}
 	img {
@@ -178,20 +178,20 @@
 		white-space: nowrap;
 	}
 	.opening-day:not(:last-child) {
-		border-bottom: 1px solid hsl(var(--border));
+		border-bottom: 1px solid var(--border);
 	}
 	.current-day {
-		background-color: hsl(var(--muted));
+		background-color: var(--muted);
 		border-radius: var(--radius);
 		margin: -1px -10px;
 		padding: 8px 15px;
 	}
 
 	.day {
-		color: hsl(var(--muted-foreground));
+		color: var(--muted-foreground);
 	}
 	.current-day .day {
-		color: hsl(var(--foreground));
+		color: var(--foreground);
 	}
 
 	.hours {
@@ -201,6 +201,6 @@
 		padding-bottom: 20px;
 	}
 	.socials svg {
-		fill: hsl(var(--muted-foreground));
+		fill: white;
 	}
 </style>

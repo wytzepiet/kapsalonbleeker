@@ -1,35 +1,29 @@
 :root {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 98%;
-
+    --background: hsl(0deg 0% 92.27%);
+    --foreground: hsl(0 0% 8%);
+    --dark: hsl(0 0% 10%);
     --card: var(--background);
     --card-foreground: var(--foreground);
     --popover: var(--background);
     --popover-foreground: var(--foreground);
-    --primary: var(--foreground);
+    --primary: hsl(35, 36%, 32%);
     --primary-foreground: var(--background);
-    --secondary: 44.77 31.07% 55.03%;
+    --secondary: var(--muted);
     --secondary-foreground: var(--foreground);
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: hsl(33.96deg 10.63% 82.16%);
+    --muted-foreground: hsl(33, 7%, 33%);
     --accent: var(--muted);
     --accent-foreground: var(--foreground);
-    --destructive: 0 94.45% 63.95%;
+    --destructive: hsl(0 94.45% 63.95%);
     --destructive-foreground: var(--foreground);
     --border: var(--muted);
-    --muted-border: 0 0% 14%;
+    --muted-border: hsl(0 0% 85%);
     --input: var(--muted);
-    --ring: 0 0% 83.1%;
+    --ring: hsl(0 0% 83.1%);
     --radius: 12px;
 }
 
-body {
 
-    background-color: hsl(0 0% 8%);
-    color: hsl(var(--foreground));
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-}
 
 h1,
 h2,

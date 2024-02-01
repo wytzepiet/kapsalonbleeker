@@ -64,7 +64,8 @@
 
 <style>
 	.day.disabled {
-		color: hsl(var(--muted-foreground) / 0.5);
+		color: var(--muted-foreground);
+		opacity: 0.5;
 		pointer-events: none;
 	}
 </style>
